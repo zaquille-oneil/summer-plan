@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Summer Cut — 208 → 195 by July 20</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #232733;
+    --border: #2e3345;
+    --text: #e1e4ed;
+    --text-dim: #8b90a0;
+    --accent: #6c8cff;
+    --accent-dim: #4a6ae0;
+    --green: #4ade80;
+    --orange: #fb923c;
+    --red: #f87171;
+    --yellow: #facc15;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.6;
+    padding: 2rem 1rem;
+  }
+
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin-bottom: 0.5rem;
+  }
+
+  header .subtitle {
+    color: var(--text-dim);
+    font-size: 1rem;
+  }
+
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem;
+    text-align: center;
+  }
+
+  .stat-card .label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-dim);
+    margin-bottom: 0.25rem;
+  }
+
+  .stat-card .value {
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  .stat-card .unit {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    font-weight: 400;
+  }
+
+  section {
+    margin-bottom: 3rem;
+  }
+
+  h2 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  h2 .icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+
+  h3 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: var(--accent);
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .card p, .card li {
+    color: var(--text);
+    font-size: 0.92rem;
+  }
+
+  .card ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .card ul li {
+    padding: 0.35rem 0;
+    padding-left: 1.25rem;
+    position: relative;
+  }
+
+  .card ul li::before {
+    content: "~";
+    position: absolute;
+    left: 0;
+    color: var(--text-dim);
+  }
+
+  .macro-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .macro-card {
+    background: var(--surface2);
+    border-radius: 10px;
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .macro-card .macro-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-dim);
+  }
+
+  .macro-card .macro-value {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin: 0.25rem 0;
+  }
+
+  .macro-card .macro-cal {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+  }
+
+  .macro-card.protein .macro-value { color: var(--accent); }
+  .macro-card.carbs .macro-value { color: var(--green); }
+  .macro-card.fat .macro-value { color: var(--orange); }
+  .macro-card.calories .macro-value { color: var(--yellow); }
+
+  .split-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  @media (max-width: 640px) {
+    .split-grid { grid-template-columns: 1fr; }
+  }
+
+  .exercise-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.5rem;
+    font-size: 0.88rem;
+  }
+
+  .exercise-table th {
+    text-align: left;
+    color: var(--text-dim);
+    font-weight: 500;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .exercise-table td {
+    padding: 0.6rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .exercise-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .exercise-table .note {
+    color: var(--text-dim);
+    font-size: 0.8rem;
+    font-style: italic;
+  }
+
+  .tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 99px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .tag.upper { background: rgba(108,140,255,0.15); color: var(--accent); }
+  .tag.lower { background: rgba(74,222,128,0.15); color: var(--green); }
+  .tag.mobility { background: rgba(251,146,60,0.15); color: var(--orange); }
+  .tag.cardio { background: rgba(248,113,113,0.15); color: var(--red); }
+
+  .week-schedule {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  @media (max-width: 640px) {
+    .week-schedule { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  .day-cell {
+    background: var(--surface2);
+    border-radius: 10px;
+    padding: 0.75rem 0.5rem;
+    text-align: center;
+    font-size: 0.8rem;
+  }
+
+  .day-cell .day-name {
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.35rem;
+  }
+
+  .day-cell .day-type {
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    line-height: 1.3;
+  }
+
+  .day-cell.lift { border-left: 3px solid var(--accent); }
+  .day-cell.ball { border-left: 3px solid var(--green); }
+  .day-cell.rest { border-left: 3px solid var(--border); }
+  .day-cell.optional { border-left: 3px solid var(--orange); }
+
+  .rule-list {
+    list-style: none;
+    padding: 0;
+    counter-reset: rules;
+  }
+
+  .rule-list li {
+    padding: 0.75rem 0;
+    padding-left: 2.5rem;
+    position: relative;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.92rem;
+  }
+
+  .rule-list li:last-child { border-bottom: none; }
+
+  .rule-list li::before {
+    counter-increment: rules;
+    content: counter(rules);
+    position: absolute;
+    left: 0;
+    top: 0.75rem;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 50%;
+    background: var(--surface2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .highlight {
+    background: rgba(108,140,255,0.1);
+    border: 1px solid rgba(108,140,255,0.25);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+  }
+
+  .highlight strong { color: var(--accent); }
+
+  .phase-timeline {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-top: 1rem;
+  }
+
+  .phase-timeline::before {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: var(--border);
+  }
+
+  .phase {
+    position: relative;
+    padding: 0.75rem 0 1.5rem 1.5rem;
+  }
+
+  .phase:last-child { padding-bottom: 0; }
+
+  .phase::before {
+    content: "";
+    position: absolute;
+    left: -1.5rem;
+    top: 1rem;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    background: var(--bg);
+  }
+
+  .phase .phase-date {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .phase .phase-title {
+    font-weight: 700;
+    margin: 0.15rem 0 0.35rem;
+  }
+
+  .phase .phase-desc {
+    font-size: 0.88rem;
+    color: var(--text-dim);
+  }
+
+  .checklist {
+    list-style: none;
+    padding: 0;
+  }
+
+  .checklist li {
+    padding: 0.5rem 0;
+    padding-left: 1.75rem;
+    position: relative;
+    font-size: 0.92rem;
+  }
+
+  .checklist li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.7rem;
+    width: 14px;
+    height: 14px;
+    border: 2px solid var(--border);
+    border-radius: 3px;
+  }
+
+  footer {
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+    color: var(--text-dim);
+    font-size: 0.8rem;
+  }
+
+  .tabs {
+    display: flex;
+    gap: 0.25rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .tab-btn {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 600;
+    transition: all 0.15s;
+  }
+
+  .tab-btn:hover { border-color: var(--accent); color: var(--text); }
+  .tab-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>Summer Cut Blueprint</h1>
+  <p class="subtitle">208 lbs &rarr; 195 lbs &middot; April 16 &mdash; July 20, 2026 &middot; 95 days</p>
+</header>
+
+<!-- ── Overview Stats ── -->
+<div class="stats-row">
+  <div class="stat-card">
+    <div class="label">Start</div>
+    <div class="value">208 <span class="unit">lbs</span></div>
+  </div>
+  <div class="stat-card">
+    <div class="label">Target</div>
+    <div class="value">195 <span class="unit">lbs</span></div>
+  </div>
+  <div class="stat-card">
+    <div class="label">Rate</div>
+    <div class="value">~1 <span class="unit">lb/wk</span></div>
+  </div>
+  <div class="stat-card">
+    <div class="label">Daily Deficit</div>
+    <div class="value">~500 <span class="unit">cal</span></div>
+  </div>
+  <div class="stat-card">
+    <div class="label">Deadline</div>
+    <div class="value">Jul 20</div>
+  </div>
+</div>
+
+<!-- ── Nutrition ── -->
+<section>
+  <h2>Nutrition</h2>
+
+  <div class="card">
+    <h3>Daily Targets</h3>
+    <p>Estimated TDEE: ~2,600 cal. Target intake: ~2,100 cal/day.</p>
+    <div class="macro-grid">
+      <div class="macro-card calories">
+        <div class="macro-label">Calories</div>
+        <div class="macro-value">2,100</div>
+        <div class="macro-cal">daily target</div>
+      </div>
+      <div class="macro-card protein">
+        <div class="macro-label">Protein</div>
+        <div class="macro-value">180g</div>
+        <div class="macro-cal">720 cal &middot; 34%</div>
+      </div>
+      <div class="macro-card carbs">
+        <div class="macro-label">Carbs</div>
+        <div class="macro-value">200g</div>
+        <div class="macro-cal">800 cal &middot; 38%</div>
+      </div>
+      <div class="macro-card fat">
+        <div class="macro-label">Fat</div>
+        <div class="macro-value">65g</div>
+        <div class="macro-cal">585 cal &middot; 28%</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>The Night Strategy</h3>
+    <p>You will be high and you will eat. The plan accounts for this — it doesn't fight it.</p>
+    <ul>
+      <li><strong>Front-load calories during the day.</strong> Eat real meals before 7pm. Target ~1,400 cal by dinner. This leaves ~700 cal for nighttime — enough to satisfy munchies without blowing the budget.</li>
+      <li><strong>Delete DoorDash on day one.</strong> This is the single highest-impact rule. Two delivery orders can easily be 2,000+ cal. The friction of not having the app is the point.</li>
+      <li><strong>Stock the pantry, not the kitchen.</strong> Have these ready for when you're high: air-popped popcorn, beef/turkey jerky, protein bars, Greek yogurt, fruit (grapes, berries, bananas), rice cakes, string cheese. These are hard to overeat and most are high-protein.</li>
+      <li><strong>No chips in the house.</strong> You reach for what's there. If it's not there, jerky and popcorn fill the same crunch craving at a fraction of the calories.</li>
+      <li><strong>If you DoorDash, you log it.</strong> Slip-ups happen. Don't spiral — just track it and eat lighter the next day.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Tracking</h3>
+    <ul>
+      <li><strong>Weeks 1-3:</strong> Log everything in MyFitnessPal (or Cronometer, MacroFactor — whatever you'll actually use). The goal is calibration, not obsession. Learn what 180g protein looks like.</li>
+      <li><strong>Week 4+:</strong> Once you can eyeball portions, you can stop logging daily. Weigh yourself 2-3x/week in the morning and track the trend. If the trend stalls for 2+ weeks, log for a few days to find the leak.</li>
+      <li><strong>Protein priority.</strong> If you hit nothing else, hit protein. It preserves muscle on a cut, keeps you full, and is the hardest macro to overeat.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── Training ── -->
+<section>
+  <h2>Training</h2>
+
+  <div class="card">
+    <h3>Weekly Schedule</h3>
+    <div class="week-schedule">
+      <div class="day-cell lift">
+        <div class="day-name">Mon</div>
+        <div class="day-type">Upper A</div>
+      </div>
+      <div class="day-cell lower lift">
+        <div class="day-name">Tue</div>
+        <div class="day-type">Lower A</div>
+      </div>
+      <div class="day-cell rest">
+        <div class="day-name">Wed</div>
+        <div class="day-type">Rest / Walk</div>
+      </div>
+      <div class="day-cell lift">
+        <div class="day-name">Thu</div>
+        <div class="day-type">Upper B</div>
+      </div>
+      <div class="day-cell rest">
+        <div class="day-name">Fri</div>
+        <div class="day-type">Rest / Walk</div>
+      </div>
+      <div class="day-cell ball">
+        <div class="day-name">Sat</div>
+        <div class="day-type">Basketball</div>
+      </div>
+      <div class="day-cell lift">
+        <div class="day-name">Sun</div>
+        <div class="day-type">Lower B</div>
+      </div>
+    </div>
+    <div class="highlight" style="margin-top:1rem;">
+      <strong>Minimum viable week:</strong> 3 gym days + basketball. If a morning doesn't happen, skip it guilt-free and hit the next one. Don't try to "make up" missed days — just continue the rotation.
+    </div>
+  </div>
+
+  <!-- Workout tabs -->
+  <div class="card">
+    <h3>Workouts</h3>
+    <p style="font-size:0.88rem; color:var(--text-dim); margin-bottom:1rem;">All lifting: 60-70 min. Warm-up sets not listed. Rest 90s between sets, 60s on accessories.</p>
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="upper-a">Upper A</button>
+      <button class="tab-btn" data-tab="lower-a">Lower A</button>
+      <button class="tab-btn" data-tab="upper-b">Upper B</button>
+      <button class="tab-btn" data-tab="lower-b">Lower B</button>
+    </div>
+
+    <div class="tab-content active" id="upper-a">
+      <table class="exercise-table">
+        <thead><tr><th>Exercise</th><th>Sets x Reps</th><th>How to</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>Barbell Row</td><td>4 x 8</td><td class="note">Hinge at hips ~45°, bar at shins, pull to lower ribs, squeeze shoulder blades, lower under control.</td><td></td></tr>
+          <tr><td>Floor Press or Flat DB Press</td><td>3 x 10</td><td class="note">Lie flat, press DBs from chest to lockout. Floor press: elbows touch floor at bottom (limits ROM, spares shoulder).</td><td class="note">Floor press if shoulder acts up</td></tr>
+          <tr><td>Lat Pulldown</td><td>3 x 10</td><td class="note">Grip wider than shoulders, lean back ~10°, pull bar to upper chest, drive elbows down and back.</td><td></td></tr>
+          <tr><td>Landmine Press</td><td>3 x 10</td><td class="note">Bar anchored in corner, press one-arm from shoulder up-and-forward at an angle. Split stance for stability.</td><td class="note">Shoulder-safe pressing</td></tr>
+          <tr><td>Face Pulls</td><td>3 x 15</td><td class="note">Cable at face height with rope, pull to forehead, flare elbows high, externally rotate so knuckles end near ears.</td><td class="note">Rotator cuff health</td></tr>
+          <tr><td>Hammer Curls</td><td>3 x 12</td><td class="note">Neutral grip (palms facing), DBs at sides, curl without swinging, keep elbows pinned to ribs.</td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tab-content" id="lower-a">
+      <table class="exercise-table">
+        <thead><tr><th>Exercise</th><th>Sets x Reps</th><th>How to</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>Back Squat (wide stance)</td><td>4 x 5</td><td class="note">Bar on upper traps, feet wider than shoulders, toes slightly out, sit back and down, knees track over toes, drive up through mid-foot.</td><td class="note">Start at 185, build back to 225+</td></tr>
+          <tr><td>Romanian Deadlift</td><td>3 x 8</td><td class="note">Soft knees, push hips back, bar/DBs slide down thighs, stop when hamstrings scream (~mid-shin), drive hips forward to stand.</td><td></td></tr>
+          <tr><td>Bulgarian Split Squat</td><td>3 x 8 each</td><td class="note">Rear foot on bench, front foot ~2ft forward, drop straight down until back knee near floor, drive through front heel.</td><td class="note">Fix L/R imbalance — go lighter on these</td></tr>
+          <tr><td>Leg Curl</td><td>3 x 12</td><td class="note">Lying or seated machine, curl heels toward glutes, squeeze hamstrings at top, lower slowly (3 sec eccentric).</td><td></td></tr>
+          <tr><td>Calf Raises</td><td>3 x 15</td><td class="note">Balls of feet on edge, drop heels below step for stretch, rise as high as possible, hold 1 sec at top.</td><td></td></tr>
+          <tr><td>Ankle Dorsiflexion Drill</td><td>2 x 30s each</td><td class="note">Face a wall in a lunge, drive front knee forward past toes without lifting heel. Hold stretch, swap sides.</td><td class="note">Wall-facing knee-over-toe stretch, left side priority</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tab-content" id="upper-b">
+      <table class="exercise-table">
+        <thead><tr><th>Exercise</th><th>Sets x Reps</th><th>How to</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>Pull-ups</td><td>4 x AMRAP</td><td class="note">Dead hang start, pull chin above bar, lower fully. Use assist band if needed; no kipping.</td><td class="note">Bodyweight, full ROM</td></tr>
+          <tr><td>Neutral-Grip DB Bench</td><td>3 x 10</td><td class="note">Palms facing each other, DBs travel over lower chest, elbows at ~45° from torso (not flared).</td><td class="note">Neutral grip = less shoulder stress</td></tr>
+          <tr><td>Cable Row</td><td>3 x 10</td><td class="note">Seated, slight lean back, pull handle to belly, drive elbows behind you, squeeze mid-back, return under control.</td><td></td></tr>
+          <tr><td>DB Lateral Raise</td><td>3 x 15</td><td class="note">Slight forward lean, soft elbows, raise DBs out to shoulder height, lead with elbows not hands.</td><td class="note">Light — stay under pain threshold</td></tr>
+          <tr><td>Tricep Pushdown</td><td>3 x 12</td><td class="note">Cable with rope or bar, elbows pinned to ribs, press down to lockout, split rope at bottom for extra squeeze.</td><td></td></tr>
+          <tr><td>Band External Rotation</td><td>2 x 15</td><td class="note">Elbow at 90° pinned to side, band anchored across body, rotate forearm outward, keep elbow glued to ribs.</td><td class="note">Rotator cuff prehab</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tab-content" id="lower-b">
+      <table class="exercise-table">
+        <thead><tr><th>Exercise</th><th>Sets x Reps</th><th>How to</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>Trap Bar Deadlift</td><td>4 x 5</td><td class="note">Stand inside bar, hinge and grip handles, chest up, push floor away, stand tall, lower with control.</td><td class="note">Sub conventional DL if no trap bar</td></tr>
+          <tr><td>Leg Press</td><td>3 x 10</td><td class="note">Feet shoulder-width mid-platform, lower until knees reach ~90°, don't let lower back round off pad, press through heels.</td><td></td></tr>
+          <tr><td>Step-Ups (DB loaded)</td><td>3 x 8 each</td><td class="note">Knee-height box, full foot on step, drive through heel to stand, lower under control (don't push off trailing leg).</td><td class="note">L/R balance work — same weight both sides</td></tr>
+          <tr><td>Nordic Curl or GHR</td><td>3 x 6-8</td><td class="note">Kneel with ankles anchored, lower body forward slowly using hamstrings, catch with hands, push back up.</td><td class="note">Eccentric focus, use assist if needed</td></tr>
+          <tr><td>Calf Raises</td><td>3 x 15</td><td class="note">Balls of feet on edge, drop heels below step for stretch, rise as high as possible, hold 1 sec at top.</td><td></td></tr>
+          <tr><td>Ankle Dorsiflexion Drill</td><td>2 x 30s each</td><td class="note">Loop band around ankle pulling forward, drive knee over toes while heel stays down. Or use wall version.</td><td class="note">Banded version if available</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Progression</h3>
+    <ul>
+      <li><strong>Slow and clean.</strong> Add 5 lbs to compound lifts when you hit the top of the rep range for all sets. On a cut, strength maintenance is the goal — gains are a bonus.</li>
+      <li><strong>If a joint hurts, drop the weight 20% and build back up.</strong> Especially the shoulder and right knee. Pain is a signal, not an obstacle to push through.</li>
+      <li><strong>Single-leg work is non-negotiable.</strong> Split squats and step-ups address the right-leg dominance directly. Keep the weight identical on both sides even if the left side feels easier.</li>
+      <li><strong>Ankle mobility every lower day.</strong> 2 minutes of wall dorsiflexion stretches before squats. This is corrective, not optional.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Cardio</h3>
+    <ul>
+      <li><strong>Basketball (~2x/week):</strong> This is your primary cardio. Don't add to it, don't formalize it. Keep showing up when people need numbers.</li>
+      <li><strong>Optional walks:</strong> 20-30 min on rest days. Neighborhood loop if possible. Low-key NEAT increase, not a workout. Do it if you feel like it, skip if you don't.</li>
+      <li><strong>Sauna:</strong> Post-workout if you want. Recovery benefit, no meaningful fat loss. Don't count it as a session.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── Training Log ── -->
+<section>
+  <h2>Training Log</h2>
+  <div class="card">
+    <h3>Mon Apr 20 &middot; Upper A <span class="tag upper" style="margin-left:0.5rem;">Day 2</span></h3>
+    <p style="font-size:0.85rem; color:var(--text-dim); margin-bottom:0.75rem;">Worked off memory at the gym — swapped a few accessories. All sets clean.</p>
+    <table class="exercise-table">
+      <thead><tr><th>Exercise</th><th>Load</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td>Bent-Over Row</td><td>115 lbs (bar + 35/side)</td><td>3x8 &check;</td></tr>
+        <tr><td>Flat Bench Press</td><td>135 lbs (bar + 45/side)</td><td>3x8 &check;</td></tr>
+        <tr><td>Lat Pulldown</td><td>100 lbs</td><td>3x8 &check;</td></tr>
+        <tr><td>Face Pulls</td><td>~50 lbs</td><td>3x8 &check;</td></tr>
+        <tr><td>Cable Crossbody (single-arm)</td><td>12.5 lbs</td><td class="note">Swap for Landmine Press next time</td></tr>
+        <tr><td>DB Curls</td><td>20 lb DBs</td><td>3x12 &check;</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>Sun Apr 19 &middot; Lower A <span class="tag lower" style="margin-left:0.5rem;">Day 1</span></h3>
+    <p style="font-size:0.85rem; color:var(--text-dim); margin-bottom:0.75rem;">First day at the gym. Bar + 45 + 25 per side = 185 lbs on the main lifts.</p>
+    <table class="exercise-table">
+      <thead><tr><th>Exercise</th><th>Load</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td>Back Squat</td><td>185 lbs (45+25/side)</td><td>All 4x5 &check;</td></tr>
+        <tr><td>Romanian Deadlift</td><td>185 lbs (45+25/side)</td><td>All 3x8 &check;</td></tr>
+        <tr><td>Bulgarian Split Squat</td><td>2x 25 lb DBs</td><td>All 3x8 each &check;</td></tr>
+        <tr><td>Leg Curl</td><td>&mdash;</td><td class="note">Skipped</td></tr>
+        <tr><td>Calf Raises</td><td>Various</td><td class="note">Done, untracked</td></tr>
+        <tr><td>Ankle Dorsiflexion</td><td>&mdash;</td><td class="note">A bit</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ── Phases ── -->
+<section>
+  <h2>Phases</h2>
+  <div class="card">
+    <div class="phase-timeline">
+      <div class="phase">
+        <div class="phase-date">Weeks 1-3 &middot; Apr 16 &ndash; May 6</div>
+        <div class="phase-title">Build the Habit</div>
+        <div class="phase-desc">Priority is showing up, not performance. Get to the gym 3-4x. Delete DoorDash. Start logging food. Don't worry about perfect macros — just hit protein close to 180g and stay around 2,100 cal. Expect to lose 3-5 lbs (some water weight).</div>
+      </div>
+      <div class="phase">
+        <div class="phase-date">Weeks 4-8 &middot; May 7 &ndash; Jun 10</div>
+        <div class="phase-title">Lock In</div>
+        <div class="phase-desc">You should be comfortable with the routine. Push compound lifts progressively. Tighten up nighttime eating — by now you know which snacks work and which ones lead to overeating. Target: 198-200 lbs by end of this phase.</div>
+      </div>
+      <div class="phase">
+        <div class="phase-date">Weeks 9-13 &middot; Jun 11 &ndash; Jul 20</div>
+        <div class="phase-title">Finish Line</div>
+        <div class="phase-desc">Maintain training intensity. If weight loss stalls, add one 20-min walk on a rest day or shave 100 cal from nighttime snacks — don't do both at once. Target: 195 lbs. If you're at 197, that's a win too.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Rules ── -->
+<section>
+  <h2>Ground Rules</h2>
+  <div class="card">
+    <ol class="rule-list">
+      <li><strong>Delete DoorDash.</strong> Reinstalling it requires admitting defeat. The friction is the feature.</li>
+      <li><strong>Morning gym, non-negotiable window.</strong> You have until 7:45am to be at the gym. If it doesn't happen, it moves to afternoon. If afternoon doesn't happen either, it just doesn't happen. No guilt, no makeup.</li>
+      <li><strong>Eat during the day.</strong> If you get to 7pm on 400 calories, the night is going to be a disaster. Front-load.</li>
+      <li><strong>Protein first, always.</strong> Every meal and every snack has a protein component. This is the one macro that actually matters on a cut.</li>
+      <li><strong>Log or weigh — pick at least one.</strong> Either log food in an app or weigh yourself 2-3x/week. Preferably both. You need at least one feedback signal.</li>
+      <li><strong>No zero weeks.</strong> A bad day is fine. Two bad days is fine. But every week needs at least 2 gym sessions and 3 days of hitting calories. That's the floor.</li>
+      <li><strong>Joints over ego.</strong> Drop weight on anything that hurts. The shoulder, the knee, the ankle — all of these will try to flare up in the first few weeks as volume increases. Respond by reducing load, not pushing through.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ── Day One Checklist ── -->
+<section>
+  <h2>Day One Checklist</h2>
+  <div class="card">
+    <ul class="checklist">
+      <li>Delete DoorDash (and Uber Eats, Grubhub — all of them)</li>
+      <li>Download a food tracking app (MyFitnessPal, Cronometer, or MacroFactor)</li>
+      <li>Buy: popcorn kernels or bags, jerky, protein bars, Greek yogurt, fruit</li>
+      <li>Remove chips and snack food from the house</li>
+      <li>Set a repeating 6:15am alarm for gym days (Mon/Tue/Thu/Sun)</li>
+      <li>Get a gym membership activated</li>
+      <li>Weigh yourself tomorrow morning (empty stomach, after bathroom)</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <p>Built April 2026. Adjust as needed — the plan serves you, not the other way around.</p>
+</footer>
+
+</div>
+
+<script>
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const parent = btn.closest('.card');
+    parent.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    parent.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
