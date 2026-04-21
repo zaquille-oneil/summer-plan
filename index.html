@@ -435,6 +435,25 @@
 
   .tab-content { display: none; }
   .tab-content.active { display: block; }
+
+  .log-scroller {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 0.25rem 0.25rem 1rem;
+    margin: 0 -0.25rem;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+  .log-scroller::-webkit-scrollbar { height: 8px; }
+  .log-scroller::-webkit-scrollbar-track { background: transparent; }
+  .log-scroller::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+  .log-scroller .card {
+    flex: 0 0 min(88%, 440px);
+    scroll-snap-align: start;
+    margin-bottom: 0;
+  }
 </style>
 </head>
 <body>
@@ -654,6 +673,8 @@
 <!-- ── Training Log ── -->
 <section>
   <h2>Training Log</h2>
+  <p style="font-size:0.85rem; color:var(--text-dim); margin-bottom:0.75rem;">&larr; Scroll &rarr; to view past sessions. Most recent first.</p>
+  <div class="log-scroller">
   <div class="card">
     <h3>Mon Apr 20 &middot; Upper A <span class="tag upper" style="margin-left:0.5rem;">Day 2</span></h3>
     <p style="font-size:0.85rem; color:var(--text-dim); margin-bottom:0.75rem;">Worked off memory at the gym — swapped a few accessories. All sets clean.</p>
@@ -684,6 +705,7 @@
         <tr><td>Ankle Dorsiflexion</td><td>&mdash;</td><td class="note">A bit</td></tr>
       </tbody>
     </table>
+  </div>
   </div>
 </section>
 
