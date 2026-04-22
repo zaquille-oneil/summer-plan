@@ -454,9 +454,136 @@
     scroll-snap-align: start;
     margin-bottom: 0;
   }
+
+  .quick-picks {
+    position: fixed;
+    top: 2rem;
+    right: 1.5rem;
+    width: 250px;
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem 1.1rem;
+    font-size: 0.78rem;
+    z-index: 20;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+    line-height: 1.45;
+  }
+  .quick-picks h4 {
+    font-size: 0.85rem;
+    margin-bottom: 0.25rem;
+    color: var(--accent);
+  }
+  .quick-picks .qp-sub {
+    color: var(--text-dim);
+    font-size: 0.7rem;
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .quick-picks .qp-item {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .quick-picks .qp-item:last-of-type { border-bottom: none; }
+  .quick-picks .qp-name {
+    font-weight: 700;
+    color: var(--text);
+    font-size: 0.82rem;
+  }
+  .quick-picks .qp-loc {
+    color: var(--text-dim);
+    font-size: 0.7rem;
+  }
+  .quick-picks .qp-order {
+    margin-top: 0.2rem;
+    color: var(--text);
+  }
+  .quick-picks .qp-macros {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    margin-top: 0.15rem;
+    font-variant-numeric: tabular-nums;
+  }
+  .quick-picks .qp-avoid {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.72rem;
+    color: var(--text-dim);
+  }
+  .quick-picks .qp-avoid strong { color: var(--red); }
+  .quick-picks.collapsed { width: auto; padding: 0.5rem 0.8rem; }
+  .quick-picks.collapsed > *:not(.qp-toggle) { display: none; }
+  .qp-toggle {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.6rem;
+    background: transparent;
+    border: none;
+    color: var(--text-dim);
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 0.15rem 0.35rem;
+    border-radius: 4px;
+  }
+  .qp-toggle:hover { color: var(--text); background: var(--surface2); }
+  .quick-picks.collapsed .qp-toggle { position: static; }
+
+  @media (max-width: 1280px) {
+    .quick-picks { display: none; }
+  }
 </style>
 </head>
 <body>
+
+<aside class="quick-picks" id="quickPicks">
+  <button class="qp-toggle" onclick="document.getElementById('quickPicks').classList.toggle('collapsed')" title="Collapse/expand">&#9776;</button>
+  <h4>Quick Picks</h4>
+  <div class="qp-sub">When you're tight on time</div>
+
+  <div class="qp-item">
+    <div class="qp-name">Poke Salad Bar</div>
+    <div class="qp-loc">1106 Fair Oaks Ave, S. Pasadena</div>
+    <div class="qp-order">Large bowl, brown rice, <strong>double ahi</strong>, edamame, seaweed, cucumber, ponzu only.</div>
+    <div class="qp-macros">~550 cal &middot; 50P / 70C / 8F</div>
+  </div>
+
+  <div class="qp-item">
+    <div class="qp-name">Sweetgreen</div>
+    <div class="qp-loc">600 E Colorado Blvd, Pasadena</div>
+    <div class="qp-order">Harvest Bowl + grilled chicken, dressing on side.</div>
+    <div class="qp-macros">~600 cal &middot; 45P / 60C / 15F</div>
+  </div>
+
+  <div class="qp-item">
+    <div class="qp-name">CAVA</div>
+    <div class="qp-loc">Pasadena</div>
+    <div class="qp-order">Brown rice + lentils + <strong>double chicken</strong> + slaw + harissa. Easy on tahini.</div>
+    <div class="qp-macros">~700 cal &middot; 50P / 75C / 18F</div>
+  </div>
+
+  <div class="qp-item">
+    <div class="qp-name">Chipotle</div>
+    <div class="qp-loc">5047 Eagle Rock Blvd</div>
+    <div class="qp-order">Brown rice + black beans + <strong>double chicken</strong> + fajita veg + salsas. <strong>No cheese / sour cream / guac.</strong></div>
+    <div class="qp-macros">~700 cal &middot; 65P / 85C / 14F</div>
+  </div>
+
+  <div class="qp-item">
+    <div class="qp-name">Kismet Rotisserie</div>
+    <div class="qp-loc">Pasadena</div>
+    <div class="qp-order">Half chicken (light meat) + rice + salad. Skip toum.</div>
+    <div class="qp-macros">~650 cal &middot; 55P / 55C / 20F</div>
+  </div>
+
+  <div class="qp-avoid">
+    <strong>Skip when fat is already high:</strong> Zankou, Spitz, Elena's, Tarmé — sauces (toum, tzatziki, tahini, aioli) add 30–50g fat.
+  </div>
+</aside>
+
 <div class="container">
 
 <header>
