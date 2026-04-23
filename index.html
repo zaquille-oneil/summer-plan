@@ -533,7 +533,30 @@
   .quick-picks.collapsed .qp-toggle { position: static; }
 
   @media (max-width: 1280px) {
-    .quick-picks { display: none; }
+    .quick-picks {
+      top: auto;
+      bottom: 1rem;
+      right: 1rem;
+      width: min(320px, calc(100vw - 2rem));
+      max-height: 70vh;
+    }
+    .quick-picks.collapsed {
+      width: auto;
+      padding: 0.6rem 0.9rem;
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .quick-picks.collapsed .qp-toggle {
+      color: #fff;
+      font-size: 1rem;
+      position: static;
+    }
+    .quick-picks.collapsed .qp-toggle::after {
+      content: " Quick Picks";
+      font-weight: 700;
+      font-size: 0.8rem;
+    }
   }
 </style>
 </head>
@@ -947,6 +970,9 @@
 </div>
 
 <script>
+if (window.matchMedia('(max-width: 1280px)').matches) {
+  document.getElementById('quickPicks').classList.add('collapsed');
+}
 document.querySelectorAll('.tab-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     const parent = btn.closest('.card');
